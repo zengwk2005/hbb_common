@@ -113,6 +113,8 @@ lazy_static::lazy_static! {
         map.insert("allow-hide-cm".to_string(), "Y".to_string());
         //隐藏托盘图标，approve-mode=password，verification-method=use-permanent-password，才可生效，项目中有修复代码
         map.insert("hide-tray".to_string(), "Y".to_string());
+        // 开启IP直接访问
+        map.insert(keys::OPTION_DIRECT_SERVER.to_string(), "Y".to_string());
         RwLock::new(map)
     };
     pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
@@ -1127,10 +1129,6 @@ impl Config {
     }
 
     pub fn get_bool_option(k: &str) -> bool {
-        if k == keys::OPTION_DIRECT_SERVER {
-            log::info!("Force direct-server ON");
-            return true;
-        }
         option2bool(k, &Self::get_option(k))
     }
 
@@ -1910,10 +1908,6 @@ impl LocalConfig {
     }
 
     pub fn get_bool_option(k: &str) -> bool {
-        if k == keys::OPTION_DIRECT_SERVER {
-            log::info!("Force direct-server ON");
-            return true;
-        }
         option2bool(k, &Self::get_option(k))
     }
 
